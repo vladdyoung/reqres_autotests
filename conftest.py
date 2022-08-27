@@ -101,19 +101,19 @@ def pytest_sessionstart():
             print("Error: %s : %s" % (f, e.strerror))
 
 
-# @pytest.hookimpl(tryfirst=True, hookwrapper=True)
-# def pytest_runtest_makereport(item, call):
-#     outcome = yield
-#     rep = outcome.get_result()
-#     browser = item.funcargs['browser']
-#     if rep.when == 'call' and rep.failed:
-#         allure.attach(
-#             body=browser.page_source,
-#             name=rep.head_line + '.html',
-#             attachment_type=allure.attachment_type.HTML
-#         )
-#         allure.attach(
-#             body=browser.get_screenshot_as_png(),
-#             name=rep.head_line + '.png',
-#             attachment_type=allure.attachment_type.PNG
-#         )
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    rep = outcome.get_result()
+    browser = item.funcargs['browser']
+    if rep.when == 'call' and rep.failed:
+        allure.attach(
+            body=browser.page_source,
+            name=rep.head_line + '.html',
+            attachment_type=allure.attachment_type.HTML
+        )
+        allure.attach(
+            body=browser.get_screenshot_as_png(),
+            name=rep.head_line + '.png',
+            attachment_type=allure.attachment_type.PNG
+        )
