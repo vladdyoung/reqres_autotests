@@ -9,7 +9,6 @@ from selenium import webdriver
 def pytest_addoption(parser):
     parser.addoption(
         '--browser_name',
-        # default='chrome',
         default='remote',
         help='Enter name of browser for testing'
     )
@@ -106,7 +105,7 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     rep = outcome.get_result()
     browser = item.funcargs['browser']
-    if rep.when == 'call' and rep.failed:
+    if rep.when == 'call' and (rep.failed or is_attachment_needed_by_test_name(rep.head_line)):
         allure.attach(
             body=browser.page_source,
             name=rep.head_line + '.html',
@@ -117,3 +116,9 @@ def pytest_runtest_makereport(item, call):
             name=rep.head_line + '.png',
             attachment_type=allure.attachment_type.PNG
         )
+
+
+def is_attachment_needed_by_test_name(name):
+    return name == 'test_crate_new_user_with_empty_data' \
+           or name == 'test_crate_new_user_with_integer_data' \
+           or name == 'test_crate_new_user_with_special_characters'
