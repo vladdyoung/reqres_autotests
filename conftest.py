@@ -23,8 +23,8 @@ def pytest_addoption(parser):
         choices=['chrome', 'firefox', 'opera'],
         help='Enter name of remote browser for testing'
     )
-    parser.addoption('--executor', default='192.168.0.190')
-    parser.addoption('--version_remote_browser', default='103.0')
+    parser.addoption('--executor', default='192.168.0.127')
+    parser.addoption('--version_remote_browser', default='104.0')
     parser.addoption('--vnc', action='store_true')
     parser.addoption('--headless', default=False, choices=['true', 'false'])
 
